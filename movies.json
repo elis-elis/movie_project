@@ -1,0 +1,54 @@
+{
+  "The Shawshank Redemption": {
+    "year": 1994,
+    "rating": 9.5
+  },
+  "Pulp Fiction": {
+    "year": 1994,
+    "rating": 8.8
+  },
+  "The Room": {
+    "year": 2003,
+    "rating": 3.6
+  },
+  "The Godfather: Part II": {
+    "year": 1974,
+    "rating": 9.0
+  },
+  "The Dark Knight": {
+    "year": 2008,
+    "rating": 9.1
+  },
+  "12 Angry Men": {
+    "year": 1957,
+    "rating": 8.9
+  },
+  "Everything Everywhere All At Once": {
+    "year": 2022,
+    "rating": 8.9
+  },
+  "Forrest Gump": {
+    "year": 1994,
+    "rating": 8.8
+  },
+  "Star Wars: Episode V": {
+    "year": 1980,
+    "rating": 8.7
+  },
+  "The Matrix": {
+    "year": 1999,
+    "rating": 8.7
+  },
+  "Following": {
+    "year": 1998,
+    "rating": 7.4
+  },
+  "The Devil's Advocate": {
+    "year": 1997,
+    "rating": 7.5
+  },
+  "Citizen Kane": {
+    "year": 1941,
+    "rating": 9.6
+  }
+}
