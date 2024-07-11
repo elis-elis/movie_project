@@ -1,5 +1,13 @@
 from random import choice
 import movie_storage
+import requests
+
+
+API_KEY = '5ed97f7c'
+OMDb_API = 'http://www.omdbapi.com/?i=tt3896198&apikey=5ed97f7c'
+
+""" Send all data requests to: 'http://www.omdbapi.com/?apikey=[yourkey]&' 
+"""
 
 
 def display_menu():
