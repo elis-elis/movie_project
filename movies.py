@@ -1,13 +1,45 @@
+import os
+import requests
+from dotenv import load_dotenv
 from random import choice
 import movie_storage
-import requests
+
+load_dotenv()
+API_KEY = os.getenv('API_KEY')
 
 
-API_KEY = '5ed97f7c'
-OMDb_API = 'http://www.omdbapi.com/?i=tt3896198&apikey=5ed97f7c'
-
-""" Send all data requests to: 'http://www.omdbapi.com/?apikey=[yourkey]&' 
-"""
+def fetch_data(movie_name):
+    try:
+        api_url = f'http://www.omdbapi.com/?apikey={API_KEY}&t={movie_name}'
+        response = requests.get(api_url)
+        response.raise_for_status()  # Raises an HTTPError if the response status is 4xx, 5xx
+        if response.status_code == requests.codes.ok:
+            data = response.json()
+            if data and data['Response'] == 'True':
+                title = data.get('Title', 'N/A')
+                year = data.get('Year', 'N/A')
+                ratings = data.get('Ratings', [])
+                if ratings:
+                    rating = ratings[0].get('Value', 'N/A')
+                else:
+                    rating = 'N/A'
+                poster = data.get('Poster', 'N/A')
+                return title, year, rating, poster
+            else:
+                print("No data found for the movie:", movie_name)
+                return None
+    except requests.exceptions.HTTPError as http_err:
+        print(f"HTTP error happened: {http_err}")
+        return None
+    except requests.exceptions.ConnectionError as conn_err:
+        print(f"Connection error happened: {conn_err}")
+        return None
+    except requests.exceptions.Timeout as timeout_err:
+        print(f"Timeout error happened: {timeout_err}")
+        return None
+    except requests.exceptions.RequestException as req_err:
+        print(f"An error happened: {req_err}")
+        return None
 
 
 def display_menu():
@@ -32,13 +64,8 @@ def display_menu():
 
 
 def list_movies():
-    """
-        List all movies in the database with their ratings.
-    """
     movies = movie_storage.load_movies()
-    total_movies = 0
-    for movie, rating in movies.items():
-        total_movies += 1
+    total_movies = len(movies)
     print(f"{total_movies} movies in total here.")
     for movie, details in movies.items():
         print(f"{movie}, year of release is {details['year']}, "
@@ -49,24 +76,20 @@ def add_movie():
     """
         Adds a movie to the movies database
     """
-    # Get the data from the JSON file
-    movies = movie_storage.load_movies()
     try:
         title = input("Guess what. You can enter a movie name here: ")
-        year = int(input("... now enter a year of release here: "))
-        rating = float(input("... and now enter a rating for this movie: "))
-        if title in movies:
-            print(f"Ah! Look at that - movie {title} already exist!")
+        movie_name = fetch_data(title)
 
-        if 1 <= rating <= 10:
-            movie_storage.add_movie(title, year, rating)
-            print(f"Voila! Movie {title} was added successfully.")
+        if movie_name:
+            movie_title, year, rating, poster_url = movie_name
+            movie_storage.add_movie(movie_title, year, rating, poster_url)
+            print("Movie Data:", movie_name)
         else:
-            print("Oops, your rating can't be accepted, "
-                  "please check your input to be a number between 1 and 10. ;) ")
+            print("Failed to fetch data for the movie:", movie_name)
+
     except ValueError as error:
         print("Oh nooo! That will not work here. "
-              "Please enter a valid number for the rating.", error)
+              "Please enter a valid name for the search to happen.", error)
 
 
 def delete_movie():
@@ -83,6 +106,7 @@ def delete_movie():
         print("As you wished - This movie has been deleted successfully.")
 
 
+"""
 def update_movie():
     movies = movie_storage.load_movies()
     title = input("Why don't you Enter the movie you want to find here: ")
@@ -93,6 +117,7 @@ def update_movie():
         print("Voila! your rating has been updated successfully.")
     else:
         print("Oh. It's an error!")
+"""
 
 
 def movie_statistics():
@@ -114,7 +139,7 @@ def movie_statistics():
     sorted_ratings = sorted(ratings)
     length = len(sorted_ratings)
     if length % 2 == 0:
-        median_movie_rating = (sorted_ratings[(length) // 2] + sorted_ratings[(length) // 2 - 1]) / 2
+        median_movie_rating = (sorted_ratings[length // 2] + sorted_ratings[length // 2 - 1]) / 2
     else:
         median_movie_rating = sorted_ratings[length // 2]
     print("Median rating:", median_movie_rating)
@@ -219,7 +244,7 @@ def main():
             break
         else:
             print("HEY! Such choice doesn't exist here. "
-                  "next time Enter a number between 1 and 8...")
+                  "next time Enter a number between 0 and 8...")
             print()
             input("Press enter to continue...carefully.")
             continue

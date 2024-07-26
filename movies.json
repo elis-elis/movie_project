@@ -1,54 +1,57 @@
 {
-  "The Shawshank Redemption": {
-    "year": 1994,
-    "rating": 9.5
+  "Control": {
+    "year": "2007",
+    "rating": "7.6/10",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BNTEzOTYwMTcxN15BMl5BanBnXkFtZTcwNTgyNjI1MQ@@._V1_SX300.jpg"
   },
-  "Pulp Fiction": {
-    "year": 1994,
-    "rating": 8.8
+  "Clerks": {
+    "year": "1994",
+    "rating": "7.7/10",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BNzE1Njk0NmItNDhlMC00ZmFlLWI4ZTUtYTY4ZjgzNjkyMTU1XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"
   },
-  "The Room": {
-    "year": 2003,
-    "rating": 3.6
+  "La haine": {
+    "year": "1995",
+    "rating": "8.1/10",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BOTQxOGU0OWUtMzExYy00ZjIxLWJmMzAtNTI1Y2YxYTMxN2RkXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_SX300.jpg"
   },
-  "The Godfather: Part II": {
-    "year": 1974,
-    "rating": 9.0
+  "Eraserhead": {
+    "year": "1977",
+    "rating": "7.3/10",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BMDExYzg5YjQtMzE0Yy00OWJjLThiZTctMWI5MzhjM2RmNjA4L2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"
   },
-  "The Dark Knight": {
-    "year": 2008,
-    "rating": 9.1
+  "The Aerial": {
+    "year": "2007",
+    "rating": "7.3/10",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BMzM2NmVmZjAtM2ZiNy00ZmY0LTg2MDctM2NiZTJlNzQyZjUwL2ltYWdlXkEyXkFqcGdeQXVyMjI4MjA5MzA@._V1_SX300.jpg"
   },
-  "12 Angry Men": {
-    "year": 1957,
-    "rating": 8.9
+  "The Man Who Wasn't There": {
+    "year": "2001",
+    "rating": "7.5/10",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BYjEwMGZkYTgtMTA5Ny00OWFhLTgzMWItYjhhMWUxYTIxNDgwXkEyXkFqcGdeQXVyNTc1NTQxODI@._V1_SX300.jpg"
   },
-  "Everything Everywhere All At Once": {
-    "year": 2022,
-    "rating": 8.9
+  "Natural Born Killers": {
+    "year": "1994",
+    "rating": "7.2/10",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BNGNjNjU1YmEtZGM5MC00ODgzLWEyY2MtZmZmNTlhOGU4OWJjXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"
   },
-  "Forrest Gump": {
-    "year": 1994,
-    "rating": 8.8
+  "American History X": {
+    "year": "1998",
+    "rating": "8.5/10",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BZTJhN2FkYWEtMGI0My00YWM4LWI2MjAtM2UwNjY4MTI2ZTQyXkEyXkFqcGdeQXVyNjc3MjQzNTI@._V1_SX300.jpg"
   },
-  "Star Wars: Episode V": {
-    "year": 1980,
-    "rating": 8.7
-  },
-  "The Matrix": {
-    "year": 1999,
-    "rating": 8.7
+  "Frances Ha": {
+    "year": "2012",
+    "rating": "7.4/10",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BOTY0NDQ2NzQ2N15BMl5BanBnXkFtZTcwMTU0OTkwOQ@@._V1_SX300.jpg"
   },
   "Following": {
-    "year": 1998,
-    "rating": 7.4
+    "year": "1998",
+    "rating": "7.4/10",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BNDVhYTAyMDgtM2NhNS00MmQ3LWE0ZDMtNWIxMjlhODFmOWUwXkEyXkFqcGdeQXVyMTA5NjIyODcx._V1_SX300.jpg"
   },
-  "The Devil's Advocate": {
-    "year": 1997,
-    "rating": 7.5
-  },
-  "Citizen Kane": {
-    "year": 1941,
-    "rating": 9.6
+  "To Kill a Mockingbird": {
+    "year": "1962",
+    "rating": "8.3/10",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BNmVmYzcwNzMtMWM1NS00MWIyLThlMDEtYzUwZDgzODE1NmE2XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg"
   }
 }

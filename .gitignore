@@ -5,3 +5,5 @@
 .idea/movie Project.iml
 __pycache__/movie_storage.cpython-312.pyc
 .idea/
+.env
+__pycache__/
