@@ -44,7 +44,7 @@ def fetch_data(movie_name):
 
 def display_menu():
     """
-        Display the main menu with options for the user.
+    Display the main menu with options for the user.
     """
     print()
     print("°°°°°°°°°° Salut, here's E's movies database °°°°°°°°°°")
@@ -55,7 +55,7 @@ def display_menu():
     print("1. (very straightforward) it's a List of movies")
     print("2. you can Add movie(s) here")
     print("3. Say goodbye to a movie or Delete it")
-    print("4. Update movie(s), if you have to")
+    print("4. (no more!) Update movie(s), if you have to")
     print("5. yeap, Stats (just FYI)")
     print("6. Random movie --> for a spontaneous evening")
     print("7. Search movie, like a detective ;)")
@@ -74,7 +74,7 @@ def list_movies():
 
 def add_movie():
     """
-        Adds a movie to the movies database
+    Adds a movie to the movies database
     """
     try:
         title = input("Guess what. You can enter a movie name here: ")
@@ -94,7 +94,7 @@ def add_movie():
 
 def delete_movie():
     """
-        Delete a movie from the database.
+    Delete a movie from the database.
     """
     title = input("You can enter a name of the movie you would like to delete here: ")
     movies = movie_storage.load_movies()
@@ -122,18 +122,22 @@ def update_movie():
 
 def movie_statistics():
     """
-        Display statistics about the movies in the database,
-        including average rating, median rating,
-        best movie by rating, and worst movie by rating.
+    Display statistics about the movies in the database,
+    including average rating, median rating,
+    best movie by rating, and worst movie by rating.
     """
     movies = movie_storage.load_movies()
+
+    if not movies:
+        print("No movies available to show statistics.")
+        return
 
     # Average rating
     ratings = []
     for details in movies.values():
-        ratings.append(details['rating'])
+        ratings.append(float(details['rating'].split('/')[0]))
     average_movie_rating = sum(ratings) / len(ratings)
-    print("Average rating:", average_movie_rating)
+    print(f"Average rating: {average_movie_rating:.2f}")
 
     # Median rating
     sorted_ratings = sorted(ratings)
@@ -145,17 +149,22 @@ def movie_statistics():
     print("Median rating:", median_movie_rating)
 
     # best movie:
-    best_movie = max(movies.items(), key=lambda movie: movie[1]['rating'])
-    print(f"Best movie(s): {best_movie[0]}, Rating {best_movie[1]['rating']}")
+    max_rating = max(ratings)
+    # movies.items() returns key-value pairs.
+    # Each pair is a tuple with: movie title and dictionary containing the movie's details.
+    best_movies = [title for title, details in movies.items() if float(details['rating'].split('/')[0].replace(',', '.')) == max_rating]
+    # combines all the movie titles into a single string, with each title separated by a comma and a space.
+    print(f"Best movie(s): {', '.join(best_movies)}, Rating {max_rating}")
 
     # The worst movie by rating
-    worst_movie = min(movies.items(), key=lambda movie: movie[1]['rating'])
-    print(f"Worst movie: {worst_movie[0]}, Rating {worst_movie[1]['rating']}")
+    min_rating = min(ratings)
+    worst_movies = [title for title, details in movies.items() if float(details['rating'].split('/')[0].replace(',', '.')) == min_rating]
+    print(f"Worst movie(s): {', '.join(worst_movies)}, Rating {min_rating}")
 
 
 def random_movie():
     """
-        Select a random movie from the database and display its title and rating.
+    Select a random movie from the database and display its title, year of release and rating.
     """
     movies = movie_storage.load_movies()
     movie, details = choice(list(movies.items()))
@@ -165,23 +174,28 @@ def random_movie():
 
 def search_movies_by_name():
     """
-        Search for movies by name in the database and display the results.
+    Search for movies by name in the database and display the results.
     """
     movies = movie_storage.load_movies()
-    query = input("Enter part of movie name: ").lower()
+    query = input("Enter part of a movie name: ").lower()
     # Convert the query to lowercase for case-insensitive search
-    for movie, details in movies.items():
-        # Convert the movie name to lowercase for case-insensitive search
-        movie_lower = movie.lower()
-        # Check if the query is a substring of the movie name
-        if query in movie.lower():
-            print(f"{movie}, its year of release: {details['year']}, "
+    matching_movies = [
+        (title, details) for title, details in movies.items()
+        if query in title.lower()  # Check if the query is a substring of the movie title
+    ]
+
+    if matching_movies:
+        # Print each matching movie
+        for title, details in matching_movies:
+            print(f"{title}, its year of release: {details['year']}, "
                   f"and it's rated: {details['rating']}.")
+    else:
+        print(f"oops, nothing to show you from '{query}', keep searching.")
 
 
 def movies_sorted_by_rating():
     """
-        Sort and display the movies in the database by rating in descending order.
+    Sort and display the movies in the database by rating in descending order.
     """
     movies = movie_storage.load_movies()
     sorted_movies = sorted(movies.items(), key=lambda r: r[1]['rating'], reverse=True)
@@ -192,7 +206,7 @@ def movies_sorted_by_rating():
 
 def main():
     """
-       Main function to run the movie database application.
+    Main function to run the movie database application.
     """
     # this line starts an infinite loop. It will continue running until it is terminated
     while True:
