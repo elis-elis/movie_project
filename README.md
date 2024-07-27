@@ -1,7 +1,7 @@
-# °°°°°°°°°° Salut, here's E's movies database °°°°°°°°°°
+# °°°°°°°°°° Salut, here's E's movies app °°°°°°°°°°
 
 ## Description
-This is a specialized movie database application that focuses exclusively on black-and-white films. The application allows users to manage their collection of classic and modern black-and-white movies. Users can add, delete, update, and search for these films. The app integrates with the OMDb API to fetch movie details such as title, year, rating, and poster image.
+This is a simple but specialized movie database application that focuses exclusively on black-and-white films. The application allows users to manage their collection of classic and modern black-and-white movies. Users can add, delete, update, and search for these films. The app integrates with the OMDb API to fetch movie details such as title, year, rating, and poster image.
 
 ## Features
 - List all movies
