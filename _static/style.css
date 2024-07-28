@@ -1,6 +1,6 @@
 body {
   background: #F5F5F0;
-  color: white;
+  color: lavenderblush;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   background: url('image2.png') no-repeat center center fixed;
   background-size: cover;
@@ -8,21 +8,29 @@ body {
 
 .list-movies-title {
   padding: 10px 0;
-  background: rgba(68, 70, 69, 0.5);
   color: rgb(14, 14, 14);
   text-align: center;
   font-size: 25pt;
-  text-shadow: 2px 2px 1px goldenrod;
+  text-shadow:
+    1px 1px 0 lavenderblush,
+    -1px -1px 0 lavenderblush,
+    -1px 1px 0 lavenderblush,
+    1px -1px 0 lavenderblush,
+    3px 3px 2px goldenrod;
+}
+
+.list-movies-title:hover {
+  color: #545452;
 }
 
 .movie-grid {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  margin-top: 20px;
+  margin-top: 25px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+  grid-gap: 25px;
   justify-content: center;
 }
 
@@ -60,12 +68,15 @@ body {
 }
 
 .movie-poster {
-    box-shadow: 0 3px 6px goldenrod, 0 3px 6px rgba(0, 0, 0, 0.23);
+    box-shadow: 0 3px 6px black, 0 3px 6px rgba(0, 0, 0, 0.23);
     width: 200px;
     height: 300px;
     display: block;
     margin: 0 auto;
 }
+
+.movie-poster:hover {
+    box-shadow: 0 3px 6px goldenrod, 0 3px 6px rgba(0, 0, 0, 0.23);}
 
 .trailer-link {
   color: goldenrod;
@@ -74,4 +85,8 @@ body {
 
 .trailer-link:hover {
   color: #ffd700; /* Change the color on hover if desired */
+}
+
+.trailer-coming-soon {
+    color: goldenrod;
 }

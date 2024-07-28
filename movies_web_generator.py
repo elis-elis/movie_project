@@ -5,12 +5,12 @@ trailer_links = {
     "Eraserhead": "https://www.youtube.com/watch?v=7WAzFWu2tVw",
     "The Aerial": "https://www.youtube.com/watch?v=Jr4SiSeSzTI",
     "The Man Who Wasn't There": "https://www.youtube.com/watch?v=htxvLcSnOU0",
-    "Natural Born Killers": "https://www.youtube.com/watch?v=XpLKNclOtLg",
     "American History X": "https://www.youtube.com/watch?v=LZGVcd5clgg",
     "Frances Ha": "https://www.youtube.com/watch?v=YdxCnCvCngk",
     "Following": "https://www.youtube.com/watch?v=62TTN6gD2So",
     "To Kill a Mockingbird": "https://www.youtube.com/watch?v=KR7loA_oziY",
-    "Psycho": "https://www.youtube.com/watch?v=DTJQfFQ40lI"
+    "Psycho": "https://www.youtube.com/watch?v=DTJQfFQ40lI",
+    "Casablanca": "https://www.youtube.com/watch?v=66Zvg0YW870"
 }
 
 
@@ -23,15 +23,17 @@ def generate_movie_info(movie_name, details):
     """
     Generates HTML for a single movie.
     """
-    trailer_url = trailer_links.get(movie_name, '#')  # Use '#' as a placeholder if trailer_url is missing
+    trailer_url = trailer_links.get(movie_name)
+    trailer_html = f'<a class="trailer-link" href="{trailer_url}" target="_blank">trailer</a>' \
+        if trailer_url else '<p class="trailer-coming-soon">trailer is not here, yet</p>'
     return f""" 
     <li> 
-        <img class="movie-poster" src="{details['poster_url']}" alt="{movie_name}">
         <div class="movie">
+            <img class="movie-poster" src="{details['poster_url']}" alt="{movie_name}">
             <h2 class="movie-title">{movie_name}</h2>
             <p class="movie-year">Year <strong>{details['year']}</strong></p>
             <p class="movie-rating">Rating <strong>{details['rating']}</strong></p>
-            <a class="trailer-link" href="{trailer_url}" target="_blank">trailer</a>
+            {trailer_html}
         </div>
     </li>
     """
