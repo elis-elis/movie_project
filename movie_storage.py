@@ -1,13 +1,13 @@
 import json
 
 
-def load_movies():
+def load_movies(file_path):
     """
     Load the movies from the JSON file. If the file is not found,
     or if the content is not a dictionary, return an empty dictionary.
     """
     try:
-        with open("movies.json", "r") as file:
+        with open(file_path, "r") as file:
             movies = json.load(file)
             if not isinstance(movies, dict):
                 movies = {}
@@ -17,11 +17,11 @@ def load_movies():
     return movies
 
 
-def save_movies(movies):
+def save_movies(file_path, movies):
     """
     Save the movies to the JSON file with pretty indentation.
     """
-    with open("movies.json", "w") as file:
+    with open(file_path, "w") as file:
         json.dump(movies, file, indent=2)
 
 
@@ -47,13 +47,15 @@ def delete_movie(title):
         save_movies(movies)
 
 
-# def update_movie(title, rating):
-   # """
-   # Updates a movie from the movies database.
-   # Loads the information from the JSON file, updates the movie,
-   # and saves it. The function doesn't need to validate the input.
-   # """
-   # movies = load_movies()
-   # if title in movies:
-   #     movies[title]['rating'] = rating
-   #     save_movies(movies)
+def update_movie(file_path, title, note):
+    """
+   Updates a movie from the movies database with a note.
+   Loads the information from the JSON file, updates the movie,
+   and saves it.
+   """
+    movies = load_movies(file_path)
+    if title in movies:
+        movies[title]['note'] = note
+        save_movies(file_path, movies)
+        return True
+    return False

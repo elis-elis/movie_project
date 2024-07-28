@@ -70,7 +70,7 @@ def display_menu():
     print("1. (Very straightforward) it's a List of movies")
     print("2. You can Add movie(s) here")
     print("3. Say goodbye to a movie or Delete it")
-    print("4. (NO more!) Update movie(s), if you have to")
+    print("4. Update movie(s) with a cute note, if you have to")
     print("5. Yeap, Stats (just FYI)")
     print("6. Random movie --> for a spontaneous evening")
     print("7. Search movie, like a detective ;)")
@@ -85,7 +85,7 @@ def list_movies():
     from the `movie_storage` module, counts the total number
     of movies, and prints each movie's title, year of release, and rating.
     """
-    movies = movie_storage.load_movies()
+    movies = movie_storage.load_movies(file_path)
     total_movies = len(movies)
     print(f"{total_movies} movies in total here.")
     for movie, details in movies.items():
@@ -127,18 +127,23 @@ def delete_movie():
         print("As you wished - This movie has been deleted successfully.")
 
 
-"""
 def update_movie():
-    movies = movie_storage.load_movies()
+    """
+    Updates the movie with a note.
+    """
+    movies = movie_storage.load_movies(file_path)
+
     title = input("Why don't you Enter the movie you want to find here: ")
+    note = input("and now Enter movie notes, and you don't have to be nice: ")
     if title in movies:
-        rating = float(input("What is the new rating for this movie? "))
-        movies[title] = rating
-        movie_storage.update_movie(title, rating)
-        print("Voila! your rating has been updated successfully.")
+        movies[title]['note'] = note
+        movie_storage.update_movie(file_path, title, note)
+        print(f"Voila! Movie {title} successfully updated")
     else:
-        print("Oh. It's an error!")
-"""
+        print("Oh. It's an error. try again, maybe?!")
+
+
+file_path = "movies.json"
 
 
 def movie_statistics():
@@ -147,7 +152,7 @@ def movie_statistics():
     including average rating, median rating,
     best movie by rating, and worst movie by rating.
     """
-    movies = movie_storage.load_movies()
+    movies = movie_storage.load_movies(file_path)
 
     if not movies:
         print("No movies available to show statistics.")
@@ -189,7 +194,7 @@ def random_movie():
     """
     Select a random movie from the database and display its title, year of release and rating.
     """
-    movies = movie_storage.load_movies()
+    movies = movie_storage.load_movies(file_path)
     movie, details = choice(list(movies.items()))
     print(f"Here's your movie for today: {movie}, its year of release is {details['year']}, "
           f"and it's rated: {details['rating']}.")
@@ -199,7 +204,7 @@ def search_movies_by_name():
     """
     Search for movies by name in the database and display the results.
     """
-    movies = movie_storage.load_movies()
+    movies = movie_storage.load_movies(file_path)
     query = input("Enter part of a movie name: ").lower()
     # Convert the query to lowercase for case-insensitive search
     matching_movies = [
@@ -220,7 +225,7 @@ def movies_sorted_by_rating():
     """
     Sort and display the movies in the database by rating in descending order.
     """
-    movies = movie_storage.load_movies()
+    movies = movie_storage.load_movies(file_path)
     sorted_movies = sorted(movies.items(), key=lambda r: r[1]['rating'], reverse=True)
     for movie, details in sorted_movies:
         print(f"{movie}, its year of release: {details['year']}, "
@@ -231,7 +236,7 @@ def generate_website():
     """
     Generates an HTML website from the movies database.
     """
-    movies = movie_storage.load_movies()
+    movies = movie_storage.load_movies(file_path)
     html_template = movies_web_generator.read_template()
     movies_html = movies_web_generator.generate_movies_info(movies)
     final_html = (html_template.replace('__TEMPLATE_TITLE__', 'E\'s Movies App').replace

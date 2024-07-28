@@ -72,15 +72,31 @@ body {
 }
 
 .movie-poster {
+    position: relative;
+    display: inline-block;
     box-shadow: 0 3px 6px black, 0 3px 6px rgba(0, 0, 0, 0.23);
     width: 200px;
     height: 300px;
-    display: block;
     margin: 0 auto;
 }
 
 .movie-poster:hover {
-    box-shadow: 0 3px 6px goldenrod, 0 3px 6px rgba(0, 0, 0, 0.23);}
+    box-shadow: 0 3px 6px goldenrod, 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.movie-poster:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: lavenderblush;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 10;
+}
 
 .trailer-link {
   color: goldenrod;
@@ -94,3 +110,4 @@ body {
 .trailer-coming-soon {
     color: goldenrod;
 }
+
