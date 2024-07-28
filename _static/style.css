@@ -1,15 +1,18 @@
 body {
   background: #F5F5F0;
-  color: black;
-  font-family: Monaco;
+  color: white;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  background: url('image2.png') no-repeat center center fixed;
+  background-size: cover;
 }
 
 .list-movies-title {
   padding: 10px 0;
-  background: #009B50;
-  color: white;
+  background: rgba(68, 70, 69, 0.5);
+  color: rgb(14, 14, 14);
   text-align: center;
-  font-size: 16pt;
+  font-size: 25pt;
+  text-shadow: 2px 2px 1px goldenrod;
 }
 
 .movie-grid {
@@ -17,36 +20,58 @@ body {
   padding: 0;
   margin: 0;
   margin-top: 20px;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
   justify-content: center;
 }
 
 .movie-grid li {
-  padding: 10px 15px;
-  text-align: left;
-}
-
-.movie {
-  width: 140px;
-}
-
-.movie-title,
-.movie-year {
-  font-size: 0.8em;
+  padding: 10px;
   text-align: center;
 }
 
+.movie {
+  width: 500px;
+
+}
+
+.movie-title,
+.movie-year,
+.movie-rating {
+  font-size: 1em;
+  display: block; /* Ensure they are block-level elements */
+  margin: 10px 0;
+}
+
 .movie-title {
-  margin-top: 10px;
+  font-size: 20px;
+  margin-top: 30px;
+  color: goldenrod;
+  text-shadow: 1px 1px 1px lavenderblush;
+  text-align: center;
 }
 
 .movie-year {
-  color: #999;
+  color: lavenderblush;
+}
+.movie-rating{
+
 }
 
-
 .movie-poster {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    width: 128px;
-    height: 193px;
+    box-shadow: 0 3px 6px goldenrod, 0 3px 6px rgba(0, 0, 0, 0.23);
+    width: 200px;
+    height: 300px;
+    display: block;
+    margin: 0 auto;
+}
+
+.trailer-link {
+  color: goldenrod;
+  text-decoration: none;
+}
+
+.trailer-link:hover {
+  color: #ffd700; /* Change the color on hover if desired */
 }
