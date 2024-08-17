@@ -25,26 +25,26 @@ def save_movies(file_path, movies):
         json.dump(movies, file, indent=2)
 
 
-def add_movie(title, year, rating, poster_url):
+def add_movie(file_path, title, year, rating, poster_url):
     """
     Add a movie to the database. The movie details include title, year,
     rating, and poster URL.
     """
-    movies = load_movies()
+    movies = load_movies(file_path)
     movies[title] = {'year': year, 'rating': rating, 'poster_url': poster_url}
-    save_movies(movies)
+    save_movies(file_path, movies)
 
 
-def delete_movie(title):
+def delete_movie(file_path, title):
     """
     Deletes a movie from the movies database.
     Loads the information from the JSON file, deletes the movie,
     and saves it.
     """
-    movies = load_movies()
+    movies = load_movies(file_path)
     if title in movies:
         del movies[title]
-        save_movies(movies)
+        save_movies(file_path, movies)
 
 
 def update_movie(file_path, title, note):

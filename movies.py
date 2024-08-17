@@ -103,7 +103,7 @@ def add_movie():
 
         if movie_name:
             movie_title, year, rating, poster_url = movie_name
-            movie_storage.add_movie(movie_title, year, rating, poster_url)
+            movie_storage.add_movie(file_path, movie_title, year, rating, poster_url)
             print("Movie Data:", movie_name)
         else:
             print("Failed to fetch data for the movie:", movie_name)
@@ -117,14 +117,22 @@ def delete_movie():
     """
     Delete a movie from the database.
     """
-    title = input("You can enter a name of the movie you would like to delete here: ")
-    movies = movie_storage.load_movies()
-    movie_storage.delete_movie(title)
-    if title not in movies:
-        print("Hello to the error! There's no such movie. Shall we try again?")
+    title_input = input("You can enter a name of the movie you would like to delete here: ").lower()
+    movies = movie_storage.load_movies(file_path)
+
+    # Find the actual title in a case-insensitive manner
+    title_to_delete = None  # no matching title has been found yet
+    for title in movies.keys():
+        if title.lower() == title_input:    # ensures that the comparison is case-insensitive
+            title_to_delete = title
+            # the exact case-sensitive title is needed to accurately delete the movie from the movies dictionary.
+            break
+
+    if title_to_delete:
+        movie_storage.delete_movie(file_path, title_to_delete)
+        print(f"As you wished - the movie {title_to_delete} has been deleted successfully.")
     else:
-        del movies[title]
-        print("As you wished - This movie has been deleted successfully.")
+        print(f"Hello to the error! There's no such movie {title_input}. Shall we try again?")
 
 
 def update_movie():
