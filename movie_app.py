@@ -157,8 +157,9 @@ class MovieApp:
         print(f"Average rating: {average_movie_rating:.2f}")
 
         # Median rating using the statistics.median method
-        # This function calculates the median of the list of ratings. The median is the middle value in a sorted list.
-        # If the list has an even number of elements, the median is the average of the two middle numbers.
+        # This function calculates the median of the list of ratings.
+        # The median is the middle value in a sorted list.
+        # If the list has even number of elements, the median is average of the two middle numbers.
         median_movie_rating = statistics.median(ratings)
         print("Median rating:", median_movie_rating)
 
@@ -168,7 +169,7 @@ class MovieApp:
         # Each pair is a tuple with: movie title and dictionary containing the movie's details.
         best_movies = [title for title, details in movies.items()
                        if float(details['rating'].split('/')[0].replace(',', '.')) == max_rating]
-        # combines all the movie titles into a single string, with each title separated by a comma and a space.
+        # combines all movie titles into a single string, with each title separated by comma and space.
         print(f"Best movie(s): {', '.join(best_movies)}, Rating {max_rating}")
 
         # The worst movie by rating
