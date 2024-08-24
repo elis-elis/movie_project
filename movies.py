@@ -2,6 +2,7 @@ import os
 import requests
 from dotenv import load_dotenv
 from random import choice
+import statistics
 import movie_storage
 import movies_web_generator
 
@@ -40,9 +41,7 @@ def fetch_data(movie_name):
                     rating = 'N/A'
                 poster = data.get('Poster', 'N/A')
                 return title, year, rating, poster
-            else:
-                print("No data found for the movie:", movie_name)
-                return None
+
     except requests.exceptions.HTTPError as http_err:
         print(f"HTTP error happened: {http_err}")
         return None
@@ -118,34 +117,22 @@ def delete_movie():
     Delete a movie from the database.
     """
     title_input = input("You can enter a name of the movie you would like to delete here: ").lower()
-    movies = movie_storage.load_movies(file_path)
 
-    # Find the actual title in a case-insensitive manner
-    title_to_delete = None  # no matching title has been found yet
-    for title in movies.keys():
-        if title.lower() == title_input:    # ensures that the comparison is case-insensitive
-            title_to_delete = title
-            # the exact case-sensitive title is needed to accurately delete the movie from the movies dictionary.
-            break
-
-    if title_to_delete:
-        movie_storage.delete_movie(file_path, title_to_delete)
-        print(f"As you wished - the movie {title_to_delete} has been deleted successfully.")
+    if movie_storage.delete_movie(file_path, title_input):
+        print(f"As you wished - the movie '{title_input}' has been deleted successfully.")
     else:
-        print(f"Hello to the error! There's no such movie {title_input}. Shall we try again?")
+        print(f"Hello to the error! There's no such movie '{title_input}'. Shall we try again?")
 
 
 def update_movie():
     """
     Updates the movie with a note.
     """
-    movies = movie_storage.load_movies(file_path)
-
-    title = input("Why don't you Enter the movie you want to find here: ")
+    title = input("Why don't you Enter the movie you want to find here: ").strip()
+    # Use strip() to remove any leading or trailing whitespace from user input
     note = input("and now Enter movie notes, and you don't have to be nice: ")
-    if title in movies:
-        movies[title]['note'] = note
-        movie_storage.update_movie(file_path, title, note)
+
+    if movie_storage.update_movie(file_path, title, note):
         print(f"Voila! Movie {title} successfully updated")
     else:
         print("Oh. It's an error. try again, maybe?!")
@@ -173,13 +160,10 @@ def movie_statistics():
     average_movie_rating = sum(ratings) / len(ratings)
     print(f"Average rating: {average_movie_rating:.2f}")
 
-    # Median rating
-    sorted_ratings = sorted(ratings)
-    length = len(sorted_ratings)
-    if length % 2 == 0:
-        median_movie_rating = (sorted_ratings[length // 2] + sorted_ratings[length // 2 - 1]) / 2
-    else:
-        median_movie_rating = sorted_ratings[length // 2]
+    # Median rating using the statistics.median method
+    # This function calculates the median of the list of ratings. The median is the middle value in a sorted list.
+    # If the list has an even number of elements, the median is the average of the two middle numbers.
+    median_movie_rating = statistics.median(ratings)
     print("Median rating:", median_movie_rating)
 
     # best movie:
@@ -242,79 +226,52 @@ def movies_sorted_by_rating():
 
 def generate_website():
     """
-    Generates an HTML website from the movies database.
+    Generates an HTML website from the movies' database.
     """
     movies = movie_storage.load_movies(file_path)
     html_template = movies_web_generator.read_template()
     movies_html = movies_web_generator.generate_movies_info(movies)
     final_html = (html_template.replace('__TEMPLATE_TITLE__', 'E\'s Movies App').replace
                   ('__TEMPLATE_MOVIE_GRID__', movies_html))
-    movies_web_generator.write_to_html_file(final_html)
-    print("Voila! Your Website was generated successfully.")
+    output_file_path = "_static/movies.html"
+    movies_web_generator.write_to_html_file(final_html, output_file_path)
+    full_path = os.path.abspath(output_file_path)
+    print(f"Voila! Your Website was generated successfully. you may check it out here: file://{full_path}")
+
+
+def exit_program():
+    """
+    Exits the program.
+    """
+    print("It was good to see you. Bye for now.")
+    exit()  # Terminates the program
 
 
 def main():
     """
     Main function to run the movie database application.
     """
-    # this line starts an infinite loop. It will continue running until it is terminated
+    choices = {
+        "1": list_movies,
+        "2": add_movie,
+        "3": delete_movie,
+        "4": update_movie,
+        "5": movie_statistics,
+        "6": random_movie,
+        "7": search_movies_by_name,
+        "8": movies_sorted_by_rating,
+        "9": generate_website,
+        "0": exit_program  # Maps choice "0" to exit_program
+    }
+
     while True:
-        # call function to print the menu options
         display_menu()
-        enter_choice = input("and now you may Enter your choice (0-9): ")
-        if enter_choice == "1":
-            list_movies()
-            print()
-            input("Press enter to continue...carefully.")
-            continue
-        elif enter_choice == "2":
-            add_movie()
-            print()
-            input("Press enter to continue...carefully.")
-            continue
-        elif enter_choice == "3":
-            delete_movie()
-            print()
-            input("Press enter to continue...carefully.")
-            continue
-        elif enter_choice == "4":
-            update_movie()
-            print()
-            input("Press enter to continue...carefully.")
-            continue
-        elif enter_choice == "5":
-            movie_statistics()
-            print()
-            input("Press enter to continue...carefully.")
-            continue
-        elif enter_choice == "6":
-            random_movie()
-            print()
-            input("Press enter to continue...carefully.")
-            continue
-        elif enter_choice == "7":
-            search_movies_by_name()
-            print()
-            input("Press enter to continue...carefully.")
-            continue
-        elif enter_choice == "8":
-            movies_sorted_by_rating()
-            print()
-            input("Press enter to continue...carefully.")
-            continue
-        elif enter_choice == "9":
-            generate_website()
-            print("Press enter to continue...carefully.")
-            continue
-        elif enter_choice == "0":
-            print("it was good to see you. bye for now.")
-            break
+        enter_choice = input("Enter your choice (0-9): ")
+        action = choices.get(enter_choice)
+        if action:
+            action()
         else:
-            print("HEY! Such choice doesn't exist here. "
-                  "next time Enter a number between 0 and 8...")
-            print()
-            input("Press enter to continue...carefully.")
-            continue
+            print("Invalid choice, please enter a number between 0 and 9.")
 
 
 if __name__ == "__main__":

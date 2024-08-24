@@ -53,9 +53,9 @@ def generate_movies_info(data):
     return output
 
 
-def write_to_html_file(content):
+def write_to_html_file(content, output_file_path):
     """
     Writes the final HTML content to the index.html file.
     """
-    with open('_static/movies.html', 'w') as new_file:
+    with open(output_file_path, 'w') as new_file:
         return new_file.write(content)
