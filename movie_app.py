@@ -1,12 +1,13 @@
 import os
-import statistics
-from random import choice
 import requests
+from dotenv import load_dotenv
+from random import choice
+import statistics
 import movies_web_generator
 from istorage import IStorage
-from movies import API_KEY
 
-file_path = "movies.json"
+load_dotenv()
+API_KEY = os.getenv('API_KEY')
 
 
 class MovieApp:
@@ -60,7 +61,8 @@ class MovieApp:
             print(f"An error happened: {req_err}")
             return None
 
-    def _display_menu(self):
+    @staticmethod
+    def _display_menu():
         """
         Displays the menu options.
         """
@@ -228,7 +230,8 @@ class MovieApp:
         full_path = os.path.abspath(output_file_path)
         print(f"Voila! Your Website was generated successfully. you may check it out here: file://{full_path}")
 
-    def _command_exit_program(self):
+    @staticmethod
+    def _command_exit_program():
         """
         Exits the program.
         """
@@ -249,7 +252,7 @@ class MovieApp:
             "7": self._command_search_movies_by_name,
             "8": self._command_movies_sorted_by_rating,
             "9": self._generate_website,
-            "0": self._command_exit_program  # Maps choice "0" to exit_program
+            "0": self._command_exit_program
         }
 
         while True:

@@ -1,5 +1,4 @@
 import json
-
 from istorage import IStorage
 
 
