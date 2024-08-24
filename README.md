@@ -26,27 +26,6 @@ This is a simple yet specialized movie database application with a focus on blac
 - `requests` library for API calls
 - `python-dotenv` for environment variable management
 
-## Installation:
-
-- Clone the Repository:
-
-    git clone <repository-url>
-
-    cd <repository-directory>
-
-- Install Dependencies:
-
-    pip install -r requirements.txt
-
-- Set Up the Environment:
-
-* Create a .env file in the project root and add your OMDb API key:
-
-    API_KEY=your_omdb_api_key_here
-
-- Run the Application:
-
-    python main.py
 
 ## Usage
 Upon running the application, a menu will be displayed allowing you to choose from various options like listing all movies, adding new ones, deleting, updating, and more. You can interact with the application via the terminal.
