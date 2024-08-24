@@ -17,21 +17,21 @@ class IStorage(ABC):
         pass
 
     @abstractmethod
-    def add_movies(self, title, year, rating, poster_url):
+    def add_movie(self, title, year, rating, poster_url):
         """
         Add a movie to the storage.
         """
         pass
 
     @abstractmethod
-    def delete_movies(self, title):
+    def delete_movie(self, title):
         """
         Delete a movie from the storage.
         """
         pass
 
     @abstractmethod
-    def update_movies(self, title, note):
+    def update_movie(self, title, note):
         """
         Update a movie with a note.
         """
