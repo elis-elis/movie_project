@@ -137,6 +137,16 @@ class MovieApp:
         else:
             print("Oh. It's an error. try again, maybe?!")
 
+    @staticmethod
+    def _convert_to_float(rating_str):
+        """
+        Converts a rating string to a float, handling cases where the string might not be a valid number.
+        """
+        try:
+            return float(rating_str.split('/')[0].replace(',', '.'))
+        except ValueError:
+            return None
+
     def _command_movie_statistics(self):
         """
         Display statistics about the movies in the database,
@@ -149,17 +159,30 @@ class MovieApp:
             print("No movies available to show statistics.")
             return
 
-        # Average rating
         ratings = []
+
         for details in movies.values():
-            ratings.append(float(details['rating'].split('/')[0]))
+            rating_str = details['rating'].split('/')[0]
+            try:
+                # Try converting the rating to a float
+                rating = float(rating_str)
+                ratings.append(rating)
+            except ValueError:
+                # Handle the case where the rating isn't a valid float, rating is N/A
+                print(f"Skipping invalid rating: {rating_str}")
+                continue
+
+        if not ratings:
+            print("No valid ratings to calculate statistics.")
+            return
+
+        # Average rating
         average_movie_rating = sum(ratings) / len(ratings)
         print(f"Average rating: {average_movie_rating:.2f}")
 
         # Median rating using the statistics.median method
-        # This function calculates the median of the list of ratings.
         # The median is the middle value in a sorted list.
-        # If the list has even number of elements, the median is average of the two middle numbers.
+        # If list has an even number of elements, the median is average of the two middle numbers.
         median_movie_rating = statistics.median(ratings)
         print("Median rating:", median_movie_rating)
 
@@ -168,14 +191,13 @@ class MovieApp:
         # movies.items() returns key-value pairs.
         # Each pair is a tuple with: movie title and dictionary containing the movie's details.
         best_movies = [title for title, details in movies.items()
-                       if float(details['rating'].split('/')[0].replace(',', '.')) == max_rating]
-        # combines all movie titles into a single string, with each title separated by comma and space.
+                       if self._convert_to_float(details['rating']) == max_rating]
         print(f"Best movie(s): {', '.join(best_movies)}, Rating {max_rating}")
 
         # The worst movie by rating
         min_rating = min(ratings)
         worst_movies = [title for title, details in movies.items()
-                        if float(details['rating'].split('/')[0].replace(',', '.')) == min_rating]
+                        if self._convert_to_float(details['rating']) == min_rating]
         print(f"Worst movie(s): {', '.join(worst_movies)}, Rating {min_rating}")
 
     def _command_random_movie(self):

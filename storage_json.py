@@ -89,4 +89,3 @@ class StorageJson(IStorage):
                 return True
 
         return False
-        # raise ValueError(f"Movie '{title}' not found.")
