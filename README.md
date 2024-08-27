@@ -1,4 +1,4 @@
-# °°°°°°°°°° Salut, here's E's movies app °°°°°°°°°°
+# °°°°°°°°°° SALUT, this is E's MOvIES APP °°°°°°°°°°
 ![movies_screenshot.png](movies_screenshot.png)
 ## Description
 This is a simple yet specialized movie database application with a focus on black-and-white films. The application allows users to manage their collection of classic and modern black-and-white movies. Users can add, delete, update, and search for these films with ease. The app integrates with the OMDb API to fetch detailed information about movies, including title, year, rating, and poster image.
@@ -25,6 +25,7 @@ This is a simple yet specialized movie database application with a focus on blac
 - Python 3.x
 - `requests` library for API calls
 - `python-dotenv` for environment variable management
+- colorama~=0.4.6 to colorize the text output
 
 
 ## Usage
