@@ -5,6 +5,10 @@ from random import choice
 import statistics
 import movies_web_generator
 from istorage import IStorage
+from colorama import init, Fore, Style
+
+# Initialize colorama
+init(autoreset=True)
 
 load_dotenv()
 API_KEY = os.getenv('API_KEY')
@@ -32,7 +36,7 @@ class MovieApp:
         """
         try:
             api_url = f'http://www.omdbapi.com/?apikey={API_KEY}&t={movie_name}'
-            response = requests.get(api_url)
+            response = requests.get(api_url, timeout=5)
             response.raise_for_status()  # Raises an HTTPError if the response status is 4xx, 5xx
             if (response.status_code ==
                     requests.codes.ok):
@@ -67,20 +71,22 @@ class MovieApp:
         Displays the menu options.
         """
         print()
-        print("°°°°°°°°°° Salut, here's E's movies app °°°°°°°°°°")
+        print(
+            Fore.MAGENTA + Style.BRIGHT +
+            "°°°°°°°°°° " + Fore.CYAN + "SALUT, this is E's MOVIES APP" + Fore.MAGENTA + " °°°°°°°°°°")
         print()
-        print("Check out the Menu:")
+        print(Fore.RED + Style.BRIGHT + "CHECK the MENU:")
         print()
-        print("0. If you wish to exit - this is the way to go")
-        print("1. (Very straightforward) it's a List of movies")
-        print("2. You can Add movie(s) here")
-        print("3. Say goodbye to a movie or Delete it")
-        print("4. Update movie(s) with a cute note, if you have to")
-        print("5. Yeap, Stats (just FYI)")
-        print("6. Random movie --> for a spontaneous evening")
-        print("7. Search movie, like a detective ;)")
-        print("8. Movies sorted by rating (again very straightforward stuff)")
-        print("9. Ahh the fun part - Generate website")
+        print(Fore.MAGENTA + "0. EXIT is through here")
+        print(Fore.GREEN + "1. LIST of (just) MOVIES")
+        print(Fore.MAGENTA + "2. ADD mOVIE, please")
+        print(Fore.GREEN + "3. DELETE MOvIE, yes")
+        print(Fore.MAGENTA + "4. UPDATE MOVIe with a note")
+        print(Fore.GREEN + "5. STATS (ratings)")
+        print(Fore.MAGENTA + "6. RANDOM MOViE --> ?")
+        print(Fore.GREEN + "7. SEARCH for MoVIE")
+        print(Fore.MAGENTA + "8. movieS SORTED by RATING")
+        print(Fore.GREEN + "9. GENERATE WEBSItE")
         print()
 
     def _command_list_movies(self):
@@ -89,7 +95,7 @@ class MovieApp:
         """
         movies = self._storage.load_movies()
         total_movies = len(movies)
-        print(f"{total_movies} movies in total here.")
+        print(Fore.YELLOW + f"{total_movies} movies in total here.")
         for movie, details in movies.items():
             print(f"{movie}, year of release is {details['year']}, "
                   f"and rating is {details['rating']}")
@@ -105,7 +111,7 @@ class MovieApp:
             if movie_name:
                 movie_title, year, rating, poster_url = movie_name
                 self._storage.add_movie(movie_title, year, rating, poster_url)
-                print("Movie Data:", movie_name)
+                print(Fore.YELLOW + "Movie Data:", movie_name)
             else:
                 print("Failed to fetch data for the movie:", movie_name)
 
@@ -120,7 +126,7 @@ class MovieApp:
         title_input = input("You can enter a name of the movie you would like to delete here: ").lower()
 
         if self._storage.delete_movie(title_input):
-            print(f"As you wished - the movie '{title_input}' has been deleted successfully.")
+            print(Fore.YELLOW + f"As you wished - the movie '{title_input}' has been deleted successfully.")
         else:
             print(f"Hello to the error! There's no such movie '{title_input}'. Shall we try again?")
 
@@ -133,7 +139,7 @@ class MovieApp:
         note = input("and now Enter movie notes, and you don't have to be nice: ")
 
         if self._storage.update_movie(title, note):
-            print(f"Voila! Movie {title} successfully updated")
+            print(Fore.YELLOW + f"Voila! Movie {title} successfully updated")
         else:
             print("Oh. It's an error. try again, maybe?!")
 
@@ -251,14 +257,15 @@ class MovieApp:
         output_file_path = "_static/movies.html"
         movies_web_generator.write_to_html_file(final_html, output_file_path)
         full_path = os.path.abspath(output_file_path)
-        print(f"Voila! Your Website was generated successfully. you may check it out here: file://{full_path}")
+        print(Fore.YELLOW + f"Voila! Your Website was generated successfully. "
+                            f"you may check it out here: file://{full_path}")
 
     @staticmethod
     def _command_exit_program():
         """
         Exits the program.
         """
-        print("It was good to see you. Bye for now.")
+        print(Fore.YELLOW + "It was good to see you. Bye for now.")
         exit()  # Terminates the program
 
     def run(self):
@@ -280,7 +287,7 @@ class MovieApp:
 
         while True:
             self._display_menu()
-            enter_choice = input("Enter your choice (0-9): ")
+            enter_choice = input(Fore.RED + Style.BRIGHT + "Enter your choice (0-9): ")
             action = choices.get(enter_choice)
             if action:
                 action()

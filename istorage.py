@@ -16,23 +16,66 @@ class IStorage(ABC):
         """
         pass
 
-    @abstractmethod
     def add_movie(self, title, year, rating, poster_url):
         """
-        Add a movie to the storage.
+        Add a movie to a storage.
         """
-        pass
+        movies = self.load_movies()
+        if title in movies:
+            print(f"Oh hunny, the movie {title} is already there, pick another movie.")
+            # Update only if necessary
+            if not movies[title].get('year'):
+                movies[title]['year'] = year
+            if not movies[title].get('rating'):
+                movies[title]['rating'] = rating
+            if not movies[title].get('poster_url'):
+                movies[title]['poster_url'] = poster_url
+        else:
+            # Add new movie
+            movies[title] = {
+                'year': year,
+                'rating': rating,
+                'poster_url': poster_url
+            }
 
-    @abstractmethod
+        self.save_movies(movies)
+
     def delete_movie(self, title):
         """
         Delete a movie from the storage.
         """
-        pass
+        movies = self.load_movies()
+        title_to_delete = None
 
-    @abstractmethod
+        # Convert the input title to lowercase once for comparison
+        title_lower = title.lower()
+
+        # Find the actual title in a case-insensitive manner
+        for stored_title in movies.keys():
+            if stored_title.lower() == title.lower():
+                title_to_delete = stored_title
+                break
+
+        if title_to_delete:
+            del movies[title_to_delete]
+            self.save_movies(movies)
+            return True
+
+        return False
+
     def update_movie(self, title, note):
         """
         Update a movie with a note.
         """
-        pass
+        movies = self.load_movies()
+        # Convert title to lowercase for case-insensitive matching
+        title_lower = title.lower()
+
+        for movie_title in list(movies.keys()):
+            if movie_title.lower() == title_lower:
+                # Found the movie to update
+                movies[movie_title]['note'] = note
+                self.save_movies(movies)
+                return True
+
+        return False

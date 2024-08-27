@@ -27,7 +27,7 @@ def generate_movie_info(movie_name, details):
     trailer_html = f'<a class="trailer-link" href="{trailer_url}" target="_blank">trailer</a>' \
         if trailer_url else '<p class="trailer-coming-soon">trailer is not here, yet</p>'
     note = details.get('note', 'No notes available')  # Get the note or set a default message
-    return f""" 
+    return f"""
     <li> 
         <div class="movie">
             <img class="movie-poster" src="{details['poster_url']}" alt="{movie_name}"title="{note}">

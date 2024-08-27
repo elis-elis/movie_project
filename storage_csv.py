@@ -14,7 +14,7 @@ class StorageCsv(IStorage):
         """
         # Each row in the CSV file corresponds to an entry in the dictionary.
         # The movie title serves as the key, and the associated details
-        # (year, rating, poster URL, and optional notes) are stored as values in a nested dictionary.
+        # (year, rating, poster URL, optional notes) are stored as values in a nested dictionary.
         movies = {}
         try:
             with open(self._file_path, mode='r', newline='', encoding='utf-8') as file:
@@ -55,63 +55,3 @@ class StorageCsv(IStorage):
                     'poster_url': details['poster_url'],
                     'notes': details.get('notes', '')
                 })
-
-    def add_movie(self, title, year, rating, poster_url):
-        """
-        Add a new movie to the CSV file.
-        """
-        movies = self.load_movies()
-        movies[title] = {
-            'year': year,
-            'rating': rating,
-            'poster_url': poster_url,
-            'notes': ''
-        }
-        self.save_movies(movies)
-
-    def delete_movie(self, title):
-        """
-        Delete a movie from the CSV file.
-        If the movie is successfully deleted, the function returns True.
-        If no matching movie is found, it returns False.
-        """
-        movies = self.load_movies()
-
-        # This variable will later hold title of the movie that needs to be deleted, if found.
-        title_to_delete = None
-        for movie_title in movies:
-            if movie_title.lower() == title.lower():
-                title_to_delete = movie_title
-                break
-                # no need to continue looping since the movie to delete has been identified.
-
-        if title_to_delete:
-            # if it's not None, means that a movie with the specified title was found.
-            del movies[title_to_delete]
-            self.save_movies(movies)
-            return True
-
-        return False
-
-    def update_movie(self, title, note):
-        """
-        Update the note of the movie in the CSV file.
-        The function returns True if a movie was found and updated,
-        and False if no movie with the provided title was found.
-        """
-        movies = self.load_movies()
-        title_lower = title.lower()
-
-        for movie_title in list(movies.keys()):
-            # movies.keys() returns a view of all the keys (movie titles) in the dictionary,
-            # and list() converts that view into a list, so we can iterate over it.
-            if movie_title.lower() == title_lower:
-                # the code compares its lowercase version (movie_title.lower())
-                # with the lowercase version of the user-provided title (title_lower).
-                movies[movie_title]['notes'] = note
-                self.save_movies(movies)
-                return True
-
-        return False
-        # indicates that no movie with the provided title was found in the CSV file,
-        # so no update was made.
